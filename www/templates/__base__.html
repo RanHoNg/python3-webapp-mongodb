@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	{% block meta %} <!-- block meta -->{% endblock %}
+	<title>{% block title %} ? {% endblock %} - Python Webapp</title>
+	<link rel="shortcut icon" href="/static/images/face.jpg" type="image/x-icon">
+	<link rel="stylesheet" type="text/css" href="/static/css/uikit.min.css">
+	<link rel="stylesheet" type="text/css" href="/static/css/awesome.css">
+	<script type="text/javascript" src="/static/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/static/js/sha1.min.js"></script>
+	<script type="text/javascript" src="/static/js/uikit.min.js"></script>
+	<script type="text/javascript" src="/static/js/uikit-icons.min.js"></script>
+	<script type="text/javascript" src="/static/js/sticky.min.js"></script>
+	<script type="text/javascript" src="/static/js/vue.min.js"></script>
+	<script type="text/javascript" src="/static/js/awesome.js"></script>
+	{% block beforehead %}<!-- before head -->{% endblock %}
+</head>
+<body>
+<div>
+	<nav class="uk-navbar-container uk-margin" uk-narbar>
+		<div class="uk-container">
+			<div class="uk-navbar-left">
+				<a class="uk-navbar-item uk-logo" href="/">SHARK</a>
+				<ul class="uk-navbar-nav">
+					<li class="uk-active">
+						<a href="/">
+							<span class="uk-margin-small-right" href="#" uk-icon="icon: album"></span>
+    	               		Blogs
+							<!-- <i class="uk-icon-home"></i> Blogs -->
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<span class="uk-margin-small-right" href="#" uk-icon="icon: star"></span>
+    	               		Works
+						</a>
+						<!-- <a target="_blank" href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000"><i class="uk-icon-book"></i> Tutorial</a> -->
+					</li>
+    	    	    <li>
+    	    	    	<a href="#">
+							<span class="uk-margin-small-right" href="#" uk-icon="icon: happy"></span>
+    	               		Owner
+						</a>
+    	    	       	<!-- <a target="_blank" href="https://github.com/michaelliao/awesome-python3-webapp"><i class="uk-icon-code"></i> Source</a> -->
+    	    	    </li>
+    	    	    <li>
+    	    	    	<a href="#">
+							<span class="uk-margin-small-right" href="#" uk-icon="icon: info"></span>
+    	               		About
+						</a>
+    	    	    </li>
+
+					{% if __user__ %}
+					<li>
+						<a href="#0">
+							<span class="uk-margin-small-right" href="#" uk-icon="icon: user"></span>
+    	               		{{ __user__.name }}
+						</a>
+						<!-- <a href="#0"><i class="uk-icon-user"></i> {{ __user__.name }}</a> -->
+					</li>
+					<li>
+						<a href="/signout">
+							<span class="uk-margin-small-right" href="#" uk-icon="icon: sign-out"></span>
+    	               		Signout
+						</a>
+						<!-- <a href="/signout"><i class="uk-icon-sign-out"></i> Signout</a> -->
+					</li>
+					{% else %}
+					<li>
+						<a href="/signin">
+							<span class="uk-margin-small-right" href="#" uk-icon="icon: sign-in"></span>
+    	               		Signin
+						</a>
+						<!-- <a href="/signin"><i class="uk-icon-sign-in"></i> Signin</a> -->
+					</li>
+					<li>
+						<a href="/register">
+							<span class="uk-margin-small-right" href="#" uk-icon="icon: pencil"></span>
+    	               		Register
+						</a>
+						<!-- <a href="/register"><i class="uk-icon-edit"></i> Register</a> -->
+					</li>
+					{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+	<div class="uk-container">
+		<div class="uk-grid-small" uk-grid>
+			<!-- content -->
+			{% block content %}
+			{% endblock %}
+			<!-- // content -->
+		</div>
+	</div>
+
+	<div class="uk-margin-large-top" style="background-color: #eee; border-top: 1px solid #ccc;">
+		<div class="uk-container uk-container-center uk-text-center">
+			<div class="uk-panel uk-margin-top uk-margin-bottom">
+				<p>
+                    <a target="_blank" href="https://github.com/RanHoNg">
+                    	<span href="#" uk-icon="icon: github"></span>
+                    </a>
+				</p>
+				<p>Powered by <a href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">Awesome Python Webapp</a>. Copyright &copy; 2014. [<a href="/manage/" target="_blank">Manage</a>]</p>
+                <p><a href="http://www.liaoxuefeng.com/" target="_blank">www.liaoxuefeng.com</a>. All rights reserved.</p>
+                <a target="_blank" href="http://www.w3.org/TR/html5/"><i class="uk-icon-html5" style="font-size:64px; color: #444;"></i></a>
+			</div>
+		</div>
+	</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+{% extends '__base__.html' %}
+
+{% block title %}日志{% endblock %}
+
+{% block beforehead %}
+
+<script type="text/javascript">
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+	<div class="uk-width-4-5@m">
+	{% for blog in blogs %}
+        <div class="uk-margin uk-card uk-card-default uk-card-small uk-card-hover uk-card-body">
+            <div class="uk-card-body uk-padding-remove-top uk-padding-remove-horizontal">
+                <h2 class="uk-card-title"><a href="/blog/{{ blog.id }}">{{ blog.name }}</a></h2>
+                <p class="uk-text-meta">Written on {{ blog.created_at }}</p>
+                <!-- dd -->
+
+                <p>{{ blog.summary }}</p>
+            </div>
+            <div class="uk-card-footer uk-padding-remove-bottom uk-padding-remove-horizontal">
+                <a class="uk-button uk-button-text" href="/blog/{{blog.id}}">Read more</a>
+            </div>
+        </div>
+	{% endfor %}
+
+		<ul class="uk-pagination uk-flex-center" uk-margin>
+        {% if page.has_previous %}
+            <li><a href="/?page={{ page.page_index - 1 }}"><span uk-pagination-previous></span></a></li>
+        {% else %}
+            <li class="uk-disabled"><a><span uk-pagination-previous></span></a></li>
+        {% endif %}
+            <li class="uk-active"><span>{{ page.page_index }}</span></li>
+        {% if page.has_next %}
+            <li><a href="/?page={{ page.page_index + 1 }}"><span uk-pagination-next></span></a></li>
+        {% else %}
+            <li class="uk-disabled"><a><span uk-pagination-next></span></a></li>
+        {% endif %}
+        </ul>
+
+	</div>
+
+	<div class="uk-width-1-5@m">
+    
+		<div class="uk-panel">
+            <h3>
+                <span href="#" uk-icon="icon: link"></span>
+                Link
+            </h3>
+            <ul class="uk-list">
+                <li>
+                    <a target="_blank" href="http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000">
+                        <span uk-icon="icon: tag"></span>
+                        Python Tutorial
+                    </a>
+                </li>
+                <li>
+                    <a target="_blank" href="http://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000">
+                        <span uk-icon="icon: tag"></span>
+                        Git Tutorial
+                    </a>
+                </li>
+            </ul>
+        </div>
+	</div>
+
+{% endblock %}

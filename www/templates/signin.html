@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html class="uk-height-1-1">
+<head>
+    <meta charset="utf-8">
+    <title>Signin - Shark Blog</title>
+    <link rel="shortcut icon" href="/static/images/face.jpg" type="image/x-icon">
+    <link rel="stylesheet" type="text/css" href="/static/css/uikit.min.css">
+    <script type="text/javascript" src="/static/js/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/sha1.min.js"></script>
+    <script type="text/javascript" src="/static/js/uikit.min.js"></script>
+    <script type="text/javascript" src="/static/js/uikit-icons.min.js"></script>
+    <script type="text/javascript" src="/static/js/sticky.min.js"></script>
+    <script type="text/javascript" src="/static/js/vue.min.js"></script>
+    <script type="text/javascript" src="/static/js/awesome.js"></script>
+    <script type="text/javascript">
+    var vmAuth;
+    $(function() {
+        vmAuth = new Vue({
+            el: '#vm',
+            data: {
+                email: '',
+                passwd: ''
+            },
+            methods: {
+                submit: function(event) {
+                    event.preventDefault();
+                    var
+                        $form = $('#vm'),
+                        email = this.email.trim().toLowerCase(),
+                        data = {
+                            email: email,
+                            passwd: this.passwd==='' ? '' : CryptoJS.SHA1(email + ':' + this.passwd).toString()
+                        };
+                    $form.postJSON('/api/authenticate', data, function(err, result) {
+                        if (!err) {
+                            return location.assign('/');
+                        }
+                    });
+                }
+            }
+        });
+        $('#vm').show();
+    });
+    </script>
+</head>
+<body  class="uk-height-1-1">
+    <div class="uk-height-1-1 uk-flex uk-flex-middle uk-flex-center">
+        <div class="uk-background-muted uk-padding-small uk-width-medium">
+            <div class="uk-flex uk-flex-center uk-margin uk-margin-medium-bottom">
+                <h2><a class="uk-link-reset" href="/">
+                    <!-- <span uk-icon="icon: user"></span> -->
+                    Shark Blog
+                </a></h2>
+            </div>
+            <form class="uk-form-stacked" id="vm" v-on:submit="submit">
+                <div class="uk-margin">
+                    <label class="uk-form-label" for="form-stacked-text">email</label>
+                    <div class="uk-form-controls">
+                        <input class="uk-input" v-model="email" name="email" type="text" maxlength="50" placeholder="shark@sharkblog.com">
+                    </div>
+                </div>
+
+                <div class="uk-margin">
+                        <label class="uk-form-label" for="form-stacked-text">password</label>
+                        <div class="uk-form-controls">
+                            <input class="uk-input" v-model="passwd" name="passwd" maxlength="50" type="password" placeholder="sharkshark">
+                        </div>
+                </div>
+                <div class="uk-flex uk-flex-center uk-margin">
+                    <button class="uk-button uk-button-primary" type="submit">Signin</button>
+                </div>
+            </form>
+            <!-- <form id="vm" v-on:submit="submit">
+                <div class="uk-alert uk-alert-danger uk-hidden"></div>
+                <div class="uk-margin">
+                    <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="icon: mail"></span>
+                        <input v-model="email" name="email" type="text" placeholder="email" maxlength="50" class="uk-input">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <div class="uk-inline">
+                        <span class="uk-form-icon" uk-icon="icon: lock"></span>
+                        <input v-model="passwd" name="passwd" type="password" placeholder="password" maxlength="50" class="uk-input">
+                    </div>
+                </div>
+                <div class="uk-margin">
+                    <button type="submit" class="uk-width-1-1 uk-button uk-button-primary uk-button-large"><i class="uk-icon-sign-in"></i> 登录</button>
+                </div>
+            </form> -->
+        </div>
+    </div>
+</body>
+</html>

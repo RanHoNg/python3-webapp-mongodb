@@ -1,0 +1,125 @@
+{% extends '__base__.html' %}
+
+{% block title %}{{ blog.name }}{% endblock %}
+
+{% block beforehead %}
+
+<script>
+var comment_url = '/api/blogs/{{ blog.id }}/comments';
+$(function () {
+    var $form = $('#form-comment');
+    $form.submit(function (e) {
+        e.preventDefault();
+        $form.showFormError('');
+        var content = $form.find('textarea').val().trim();
+        if (content==='') {
+            return $form.showFormError('Empty Content！');
+        }
+        $form.postJSON(comment_url, { content: content }, function (err, result) {
+            if (err) {
+                return $form.showFormError(err);
+            }
+            refresh();
+        });
+    });
+});
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="uk-width-4-5@m">
+        <article class="uk-article">
+            <h1 class="uk-article-title">{{ blog.name }}</h1>
+            <p class="uk-article-meta">Written on {{ blog.created_at }}</p>
+            <!-- dd -->
+            <p>{{ blog.html_content|safe }}</p>
+        </article>
+
+        <hr class="uk-article-divider">
+
+    {% if __user__ %}
+        <h4>COMMENT</h4>
+
+        <article class="uk-comment">
+            <header class="uk-comment-header uk-grid-medium uk-flex-middle uk-margin-remove-bottom" uk-grid>
+                <div class="uk-width-auto">
+                    <img class="uk-comment-avatar" width="50" height="50" src="{{ __user__.image }}">
+                </div>
+                <dir class="uk-width-expand">
+                    <h4 class="uk-comment-title">{{ __user__.name }}</h4>
+                </dir>
+            </header>
+            <div class="uk-comment-body">
+                <form id="form-comment">
+                    <div class="uk-alert uk-alert-danger" hidden></div>
+                    <div>
+                        <textarea class="uk-textarea" rows="4" placeholder="a public comment..."></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-comment"></i> Comment</button>
+                    </div>
+                </form>
+            </div>
+        </article>
+
+        <hr class="uk-article-divider">
+    {% endif %}
+        <div class="uk-background-muted uk-padding-small">
+        <h3>Newest first</h3>
+
+        <ul class="uk-comment-list">
+            {% for comment in comments %}
+            <li>
+                <article class="uk-comment">
+                    <header class="uk-comment-header">
+                        <img class="uk-comment-avatar uk-border-circle" width="50" height="50" src="{{ comment.user_image }}">
+                        <h4 class="uk-comment-title">{{ comment.user_name }} {% if comment.user_id==blog.user_id %}(Author){% endif %}</h4>
+                        <p class="uk-comment-meta">{{ comment.created_at }}</p>
+                        <!-- dd -->
+                    </header>
+                    <div class="uk-comment-body">
+                        {{ comment.html_content|safe }}
+                    </div>
+                </article>
+            </li>
+            {% else %}
+            <p>No comments yet...</p>
+            {% endfor %}
+        </ul>
+        </div>
+    </div>
+
+    <div class="uk-width-1-5@m">
+        <div class="uk-background-muted uk-padding-small">
+            <div class="uk-panel">
+                <div class="uk-text-center uk-margin-medium-top">
+                    <img class="uk-border-circle" width="80" height="80" src="{{ blog.user_image }}">
+                    <h3 class="uk-margin-small-top">{{ blog.user_name }}</h3>
+                </div>
+            </div>
+            <div class="uk-panel uk-margin-small-bottom">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+            </div>
+            <div class="uk-grid-small uk-grid-divider uk-child-width-1-2" uk-grid>
+                <div>
+                    <a target="_blank" href="https://github.com/RanHoNg">
+                        <span uk-icon="icon: github-alt"></span>
+                        github
+                    </a>
+                </div>
+                <div>
+                    <a target="_blank" href="https://twitter.com/RanHoNg7">
+                        <span uk-icon="icon: twitter"></span>
+                        twitter
+                    </a>
+                </div>
+                <!-- <ul class="uk-list uk-list-line">
+                    <li><i class="uk-icon-link"></i> <a href="https://github.com/RanHoNg">Github</a></li>
+                </ul> -->
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
